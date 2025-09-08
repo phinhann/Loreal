@@ -12,7 +12,7 @@ st.set_page_config(page_title="L'Oréal CommentSense Dashboard", layout="wide")
 # -----------------------------
 @st.cache_data
 def load_data():
-    df = pd.read_csv("/Users/HP/Downloads/sample_comments.csv")
+    df = pd.read_csv("sample_comments.csv")
     return df
 
 df = load_data()
