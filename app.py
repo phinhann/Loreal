@@ -13,6 +13,9 @@ st.set_page_config(page_title="L'Oréal CommentSense Dashboard", layout="wide")
 @st.cache_data
 def load_data():
     df = pd.read_csv("sample_comments.csv")
+    
+    # ✅ Replace missing categories with a label
+    df["category"] = df["category"].fillna("Uncategorized")
     return df
 
 df = load_data()
@@ -31,9 +34,29 @@ It shows **sentiment**, **spam detection**, and **categorization** of comments.
 # Filters
 # -----------------------------
 st.sidebar.header("Filters")
-sentiment_filter = st.sidebar.multiselect("Select Sentiment", options=df["sentiment"].unique(), default=df["sentiment"].unique())
-category_filter = st.sidebar.multiselect("Select Category", options=df["category"].unique(), default=df["category"].unique())
-spam_filter = st.sidebar.multiselect("Select Spam/Not Spam", options=df["spam_flag"].unique(), default=df["spam_flag"].unique())
+
+# ✅ Reorder category options (important ones first, then the rest)
+category_order = ["skincare", "makeup", "fragrance"]
+other_categories = sorted([c for c in df["category"].unique() if c not in category_order])
+category_options = category_order + other_categories
+
+sentiment_filter = st.sidebar.multiselect(
+    "Select Sentiment",
+    options=df["sentiment"].unique(),
+    default=df["sentiment"].unique()
+)
+
+category_filter = st.sidebar.multiselect(
+    "Select Category",
+    options=category_options,
+    default=category_options
+)
+
+spam_filter = st.sidebar.multiselect(
+    "Select Spam/Not Spam",
+    options=df["spam_flag"].unique(),
+    default=df["spam_flag"].unique()
+)
 
 # Apply filters
 filtered_df = df[
@@ -85,4 +108,8 @@ st.bar_chart(filtered_df["category"].value_counts())
 # Data Preview
 # -----------------------------
 st.subheader("🔍 Sample Comments")
-st.dataframe(filtered_df[["commentId", "textOriginal", "cleaned_text", "sentiment", "spam_flag", "category"]].head(20))
+st.dataframe(
+    filtered_df[
+        ["commentId", "textOriginal", "cleaned_text", "sentiment", "spam_flag", "category"]
+    ].head(20)
+)
