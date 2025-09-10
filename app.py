@@ -14,8 +14,11 @@ st.set_page_config(page_title="L'Oréal CommentSense Dashboard", layout="wide")
 def load_data():
     df = pd.read_csv("sample_comments.csv")
     
-    # ✅ Replace missing categories with a label
+    # Replace missing values with clear labels
     df["category"] = df["category"].fillna("Uncategorized")
+    df["sentiment"] = df["sentiment"].fillna("Unknown Sentiment")
+    df["spam_flag"] = df["spam_flag"].fillna("Unknown")
+    
     return df
 
 df = load_data()
@@ -35,8 +38,8 @@ It shows **sentiment**, **spam detection**, and **categorization** of comments.
 # -----------------------------
 st.sidebar.header("Filters")
 
-# ✅ Reorder category options (important ones first, then the rest)
-category_order = ["skincare", "makeup", "fragrance"]
+# Reorder category options (important ones first, then the rest)
+category_order = ["Skincare", "Makeup", "Fragrance"]
 other_categories = sorted([c for c in df["category"].unique() if c not in category_order])
 category_options = category_order + other_categories
 
@@ -75,7 +78,7 @@ col1, col2, col3, col4, col5 = st.columns(5)
 quality_df = filtered_df[
     (filtered_df["spam_flag"] == "Not Spam") &
     (filtered_df["sentiment"].isin(["Positive", "Neutral"])) &
-    (filtered_df["category"].isin(["skincare", "fragrance", "makeup"]))
+    (filtered_df["category"].isin(["Skincare", "Fragrance", "Makeup"]))
 ]
 
 quality_score = round((len(quality_df) / len(filtered_df)) * 100, 2) if len(filtered_df) > 0 else 0
