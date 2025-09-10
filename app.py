@@ -4,7 +4,7 @@
 import streamlit as st
 import pandas as pd
 
-# ✅ Page config (only once, at the top)
+# Page config (only once, at the top)
 st.set_page_config(page_title="L'Oréal CommentSense Dashboard", layout="wide")
 
 # -----------------------------
@@ -20,7 +20,7 @@ df = load_data()
 # -----------------------------
 # Dashboard Title
 # -----------------------------
-st.title("💬 L'Oréal CommentSense Dashboard")
+st.title("L'Oréal CommentSense Dashboard 💬")
 
 st.markdown("""
 This dashboard analyzes YouTube comments to measure content effectiveness.  
@@ -45,7 +45,7 @@ filtered_df = df[
 # -----------------------------
 # KPIs
 # -----------------------------
-st.subheader("📊 Key Metrics")
+st.subheader("Key Metrics 📊")
 col1, col2, col3, col4, col5 = st.columns(5)
 
 # Define quality condition
