@@ -14,10 +14,10 @@ st.set_page_config(page_title="L'Oréal CommentSense Dashboard", layout="wide")
 def load_data():
     df = pd.read_csv("sample_comments.csv")
     
-    # Replace missing values with clear labels
-    df["category"] = df["category"].fillna("Uncategorized")
-    df["sentiment"] = df["sentiment"].fillna("Unknown Sentiment")
-    df["spam_flag"] = df["spam_flag"].fillna("Unknown")
+    # ✅ Clean and standardize missing values
+    df["category"] = df["category"].fillna("Uncategorized").str.title()   # capitalize each word
+    df["sentiment"] = df["sentiment"].fillna("Other")
+    df["spam_flag"] = df["spam_flag"].fillna("Other")
     
     return df
 
@@ -38,7 +38,7 @@ It shows **sentiment**, **spam detection**, and **categorization** of comments.
 # -----------------------------
 st.sidebar.header("Filters")
 
-# Reorder category options (important ones first, then the rest)
+# ✅ Reorder category options (important ones first, then the rest)
 category_order = ["Skincare", "Makeup", "Fragrance"]
 other_categories = sorted([c for c in df["category"].unique() if c not in category_order])
 category_options = category_order + other_categories
