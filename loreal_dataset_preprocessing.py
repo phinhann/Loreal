@@ -177,6 +177,7 @@ print("Full preprocessing complete!")
 print("Final dataset shape:", df.shape)
 print(f"Saved dataset as {output_file}")
 
+# Randomly select data
 import pandas as pd
 
 df = pd.read_csv("final_preprocessed_comments.csv")
